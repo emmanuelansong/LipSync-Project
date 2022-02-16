@@ -7,6 +7,7 @@ using Microsoft.CognitiveServices.Speech;
 using Microsoft.CognitiveServices.Speech.Audio;
 using UnityEditor;
 using UnityEngine.Playables;
+using UnityEngine.UI;
 [Serializable]
 public struct Emotion
 {
@@ -26,8 +27,13 @@ public class LipSyncFromAudioFile : MonoBehaviour
 
     [TextArea(15, 20)]
     public string XML;
+
     public string key;
     public string region;
+
+    public InputField keyInput;
+    public InputField regionInput;
+    
 
     public AudioSource source;
     public AudioSource placeholderSource;
@@ -46,9 +52,10 @@ public class LipSyncFromAudioFile : MonoBehaviour
     ButtonManager bm;
     void Start()
     {
+        keyInput.text = key;
+        regionInput.text = region;
         visemes = new Dictionary<float, int>();
-        speechConfig = SpeechConfig.FromSubscription(key, region);
-        speechConfig.SpeechSynthesisVoiceName = "en-US-GuyNeural";
+
 
         //FromFile_Viseme();
         timeDelay = UnityEngine.Random.Range(1, 10);
@@ -214,6 +221,8 @@ public class LipSyncFromAudioFile : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        key = keyInput.text;
+        region = regionInput.text;
         Emotion(emotion);
         if (Input.GetKeyDown(KeyCode.K))
         {
@@ -472,7 +481,8 @@ public class LipSyncFromAudioFile : MonoBehaviour
     public void FromFile_Viseme(AudioSource audioSource)
     {
         //write to new file
-        
+        speechConfig = SpeechConfig.FromSubscription(key, region);
+        speechConfig.SpeechSynthesisVoiceName = "en-US-GuyNeural";
         var audioConfig = AudioConfig.FromWavFileOutput(AssetDatabase.GetAssetPath(audioSource.clip));
 
         using (var synthesizer = new SpeechSynthesizer(speechConfig, audioConfig))
@@ -536,7 +546,8 @@ public class LipSyncFromAudioFile : MonoBehaviour
     public void FromFile_Viseme_XML(AudioSource audioSource)
     {
         //write to new file
-
+        speechConfig = SpeechConfig.FromSubscription(key, region);
+        
         var audioConfig = AudioConfig.FromWavFileOutput(AssetDatabase.GetAssetPath(audioSource.clip));
 
         using (var synthesizer = new SpeechSynthesizer(speechConfig, audioConfig))

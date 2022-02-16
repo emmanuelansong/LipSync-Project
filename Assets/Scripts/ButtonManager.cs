@@ -28,8 +28,11 @@ public class ButtonManager : MonoBehaviour
 
     public void PlayTimeline()
     {
-        lipsync.FromFile_Viseme(audioSource);
-        pb.Stop();
-        pb.Play();
+        if (lipsync.key != null && lipsync.region != null)
+        {
+            lipsync.FromFile_Viseme(audioSource);
+            pb.Stop();
+            pb.Play();
+        }
     }
 }
