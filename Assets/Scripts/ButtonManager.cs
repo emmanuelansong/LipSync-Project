@@ -22,14 +22,24 @@ public class ButtonManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (pb.time > 0)
+        /* if (pb.time > 0)
+         {
+             gameObject.GetComponent<Button>().interactable = false;
+         }
+         else
+             gameObject.GetComponent<Button>().interactable = true;*/
+
+        if (Input.GetKeyDown(KeyCode.RightArrow))
         {
-            gameObject.GetComponent<Button>().interactable = false;
+            pb.time += 0.1;
         }
-        else
-            gameObject.GetComponent<Button>().interactable = true;
+
+        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            pb.time -= 0.1;
+        }
     }
-    private void OnDrawGizmos()
+        private void OnDrawGizmos()
     {
         Text text = transform.GetChild(0).GetComponent<Text>();
         text.text = pb.name;
