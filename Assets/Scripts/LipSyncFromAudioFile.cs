@@ -9,7 +9,7 @@ using UnityEditor;
 using UnityEngine.Playables;
 using UnityEngine.UI;
 [Serializable]
-public struct Emotion
+public class Emotion
 {
     public string name;
     //public bool activated;
@@ -86,19 +86,23 @@ public class LipSyncFromAudioFile : MonoBehaviour
         if (id == 1)
         {
             viseme = "AA"; skinnedMeshRenderer.SetBlendShapeWeight(ConvertTo(viseme, visemeIdentifier), value);
+            skinnedMeshRenderer.SetBlendShapeWeight(ConvertTo("CheekSquint", "Genesis8_1Male__facs_ctrl_"), value);
         }
         if (id == 2)
         {
             viseme = "AA"; skinnedMeshRenderer.SetBlendShapeWeight(ConvertTo(viseme, visemeIdentifier), value);
+            skinnedMeshRenderer.SetBlendShapeWeight(ConvertTo("CheekSquint", "Genesis8_1Male__facs_ctrl_"), value);
 
         }
         if (id == 3)
         {
             viseme = "OW"; skinnedMeshRenderer.SetBlendShapeWeight(ConvertTo(viseme, visemeIdentifier), value);
+            
         }
         if (id == 4)
         {
             viseme = "EE"; skinnedMeshRenderer.SetBlendShapeWeight(ConvertTo(viseme, visemeIdentifier), value);
+            skinnedMeshRenderer.SetBlendShapeWeight(ConvertTo("CheekSquint", "Genesis8_1Male__facs_ctrl_"), value);
 
         }
         if (id == 5)
@@ -108,10 +112,12 @@ public class LipSyncFromAudioFile : MonoBehaviour
         if (id == 6)
         {
             viseme = "EE"; skinnedMeshRenderer.SetBlendShapeWeight(ConvertTo(viseme, visemeIdentifier), value);
+            skinnedMeshRenderer.SetBlendShapeWeight(ConvertTo("CheekSquint", "Genesis8_1Male__facs_ctrl_"), value);
         }
         if (id == 7)
         {
             viseme = "W"; skinnedMeshRenderer.SetBlendShapeWeight(ConvertTo(viseme, visemeIdentifier), value);
+            
         }
         if (id == 8)
         {
@@ -120,22 +126,27 @@ public class LipSyncFromAudioFile : MonoBehaviour
         if (id == 9)
         {
             viseme = "OW"; skinnedMeshRenderer.SetBlendShapeWeight(ConvertTo(viseme, visemeIdentifier), value);
+            
         }
         if (id == 10)
         {
             viseme = "OW"; skinnedMeshRenderer.SetBlendShapeWeight(ConvertTo(viseme, visemeIdentifier), value);
+            
         }
         if (id == 11)
         {
             viseme = "IY"; skinnedMeshRenderer.SetBlendShapeWeight(ConvertTo(viseme, visemeIdentifier), value);
+            skinnedMeshRenderer.SetBlendShapeWeight(ConvertTo("CheekSquint", "Genesis8_1Male__facs_ctrl_"), value);
         }
         if (id == 12)
         {
             viseme = "IH"; skinnedMeshRenderer.SetBlendShapeWeight(ConvertTo(viseme, visemeIdentifier), value);
+            skinnedMeshRenderer.SetBlendShapeWeight(ConvertTo("CheekSquint", "Genesis8_1Male__facs_ctrl_"), value);
         }
         if (id == 13)
         {
             viseme = "OW"; skinnedMeshRenderer.SetBlendShapeWeight(ConvertTo(viseme, visemeIdentifier), value);
+           
         }
         if (id == 14)
         {
@@ -144,6 +155,7 @@ public class LipSyncFromAudioFile : MonoBehaviour
         if (id == 15)
         {
             viseme = "S"; skinnedMeshRenderer.SetBlendShapeWeight(ConvertTo(viseme, visemeIdentifier), value);
+            skinnedMeshRenderer.SetBlendShapeWeight(ConvertTo("CheekSquint", "Genesis8_1Male__facs_ctrl_"), value);
         }
         if (id == 16)
         {
@@ -152,12 +164,14 @@ public class LipSyncFromAudioFile : MonoBehaviour
         if (id == 17)
         {
             viseme = "TH"; skinnedMeshRenderer.SetBlendShapeWeight(ConvertTo(viseme, visemeIdentifier), value);
+            skinnedMeshRenderer.SetBlendShapeWeight(ConvertTo("CheekSquint", "Genesis8_1Male__facs_ctrl_"), value);
 
         }
         if (id == 18)
         {
             viseme = "F";
             skinnedMeshRenderer.SetBlendShapeWeight(ConvertTo(viseme, visemeIdentifier), value);
+            skinnedMeshRenderer.SetBlendShapeWeight(ConvertTo("CheekSquint", "Genesis8_1Male__facs_ctrl_"), value);
         }
         if (id == 19)
         {
@@ -173,6 +187,7 @@ public class LipSyncFromAudioFile : MonoBehaviour
         {
             viseme = "M";
             skinnedMeshRenderer.SetBlendShapeWeight(ConvertTo(viseme, visemeIdentifier), value);
+            
 
         }
 
@@ -221,6 +236,8 @@ public class LipSyncFromAudioFile : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        timeDelay -= Time.deltaTime;
+
         key = keyInput.text;
         region = regionInput.text;
         Emotion(emotion);
@@ -234,22 +251,21 @@ public class LipSyncFromAudioFile : MonoBehaviour
         }
         if (source.time > 0 || pb.time > 0)
         {
+
             foreach (var x in visemes)
             {
+                
                 if ((pb.time * 1000) > (x.Key - offset) && (pb.time * 1000) < (x.Key + offset))
                 {
 
                     StartCoroutine(test(x.Value, x.Key));
-
+                    StartCoroutine(BrowMovement(x.Key));
 
                 }
                 //Debug.Log(x.Key);
 
             }
         }
-        
-        timeDelay -= Time.deltaTime;
-
         if(timeDelay <= 0f)
         {
             StartCoroutine(blink());
@@ -283,7 +299,38 @@ public class LipSyncFromAudioFile : MonoBehaviour
         yield return new WaitForSeconds(duration/1000);
         GetBlendshape(0, id);
     }
+    IEnumerator BrowMovement(float key)
+    {
+        float value = UnityEngine.Random.Range(50, 100);
 
+        float activate0 = UnityEngine.Random.Range(0, 1);
+        int activate = UnityEngine.Random.Range(0, 3);
+        
+        string identifier = "Genesis8_1Male__facs_ctrl_";
+        var duration = (key + offset) - (key - offset);
+
+        if (activate0 > 0.05f)
+        {
+            yield break;
+        }
+
+        if (activate0 < 0.05)
+        {
+            
+            if (activate == 1)
+                skinnedMeshRenderer.SetBlendShapeWeight(ConvertTo("BrowUp", identifier), value);
+            if (activate == 2)
+                skinnedMeshRenderer.SetBlendShapeWeight(ConvertTo("BrowDown", identifier), value);
+        }
+        yield return new WaitForSeconds(duration);
+
+        if (activate == 1)
+            skinnedMeshRenderer.SetBlendShapeWeight(ConvertTo("BrowUp", identifier), 0);
+        if (activate == 2)
+            skinnedMeshRenderer.SetBlendShapeWeight(ConvertTo("BrowDown", identifier), 0);
+        
+
+    }
     void Emotion(Emotion[] emotion )
     {
         //string identifier = "Genesis8_1__facs_ctrl_";
@@ -465,18 +512,6 @@ public class LipSyncFromAudioFile : MonoBehaviour
         skinnedMeshRenderer.SetBlendShapeWeight(ConvertTo("MouthDimple", identifier), value/2);
     }
 
-    string FromFile(SpeechConfig speechConfig)
-    {
-        using var recognizer = new SpeechRecognizer(speechConfig, audioConfig);
-        {
-            var result = recognizer.RecognizeOnceAsync();
-            
-            
-
-            return result.Result.Text;
-        }
-
-    }
 
     public void FromFile_Viseme(AudioSource audioSource, string SSML)
     {
