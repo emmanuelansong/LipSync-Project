@@ -31,15 +31,15 @@ public class ButtonManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
-            pb.time += 0.1;
+            pb.time += 1;
         }
 
         if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
-            pb.time -= 0.1;
+            pb.time -= 1;
         }
     }
-        private void OnDrawGizmos()
+    private void OnDrawGizmos()
     {
         Text text = transform.GetChild(0).GetComponent<Text>();
         text.text = pb.name;

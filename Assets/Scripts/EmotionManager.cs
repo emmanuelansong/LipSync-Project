@@ -25,7 +25,7 @@ public class EmotionManager : MonoBehaviour
     {
         sliderValue = GetComponentInChildren<Slider>().value;
         //change text
-        var text = GetComponent<Text>().text = $"{gameObject.name} : {Mathf.Round(sliderValue * 100) / 100}";
+        var text = GetComponent<Text>().text = $"{gameObject.name} : {Mathf.Round(sliderValue * 100) / 100}%";
         //ChangeValue();
 
         for (int x = 0; x < lip.emotion.Length; x++)
