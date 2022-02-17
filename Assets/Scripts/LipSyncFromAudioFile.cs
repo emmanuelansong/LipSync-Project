@@ -59,7 +59,7 @@ public class LipSyncFromAudioFile : MonoBehaviour
 
         //FromFile_Viseme();
         timeDelay = UnityEngine.Random.Range(1, 10);
-        FromFile_Viseme_XML(placeholderSource);
+        //FromFile_Viseme_XML(placeholderSource);
     }
 
     void GetBlendshape(int value, int id)
@@ -478,33 +478,33 @@ public class LipSyncFromAudioFile : MonoBehaviour
 
     }
 
-    public void FromFile_Viseme(AudioSource audioSource)
+    public void FromFile_Viseme(AudioSource audioSource, string SSML)
     {
         //write to new file
         speechConfig = SpeechConfig.FromSubscription(key, region);
         speechConfig.SpeechSynthesisVoiceName = "en-US-GuyNeural";
-        var audioConfig = AudioConfig.FromWavFileOutput(AssetDatabase.GetAssetPath(audioSource.clip));
+        var audioConfig = AudioConfig.FromWavFileInput(AssetDatabase.GetAssetPath(audioSource.clip));
 
         using (var synthesizer = new SpeechSynthesizer(speechConfig, audioConfig))
         {
             synthesizer.SynthesisStarted += (s, e) =>
             {
-                Debug.Log("\nSession started event.");
+                Debug.Log("\nSession started event.");//
             };
             //on receiving viseme
             synthesizer.VisemeReceived += (s, e) =>
             {
                 visemes.Add(Convert.ToSingle(e.AudioOffset / 10000), Convert.ToInt32(e.VisemeId));
-
+                Debug.Log(e.VisemeId);
             };
 
             synthesizer.Synthesizing += (s, e) =>
             {
-                Debug.Log("synthesising..");
+                return;
             };
 
             //get result
-            var result = synthesizer.SpeakTextAsync(text);
+            var result = synthesizer.SpeakSsmlAsync(SSML);
             
             //if synthesis completed
             if (result.Result.Reason == ResultReason.SynthesizingAudioCompleted)
@@ -533,9 +533,6 @@ public class LipSyncFromAudioFile : MonoBehaviour
             {
                 Debug.Log("\nSession stopped event.");
                 Debug.Log("\nStop recognition.");
-                
-                
-                
             };
             
         };
