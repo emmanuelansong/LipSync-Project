@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class EmotionManager : MonoBehaviour
 {
-    
+
     LipSyncFromAudioFile lip;
     public float sliderValue;
     // Start is called before the first frame update
@@ -25,24 +25,16 @@ public class EmotionManager : MonoBehaviour
     {
         sliderValue = GetComponentInChildren<Slider>().value;
         //change text
-        var text = GetComponent<Text>().text = $"{gameObject.name} : {Mathf.Round(sliderValue*100)/100}";
+        var text = GetComponent<Text>().text = $"{gameObject.name} : {Mathf.Round(sliderValue * 100) / 100}";
         //ChangeValue();
 
         for (int x = 0; x < lip.emotion.Length; x++)
         {
-            if(lip.emotion[x].name == gameObject.name)
+            if (lip.emotion[x].name == gameObject.name)
                 lip.emotion[x].value = sliderValue;
-            
+
         }
 
 
     }
-   
-    public void ChangeValue()
-    {
-        //parent text
-
-       
-    }
-
 }
