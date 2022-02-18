@@ -10,8 +10,6 @@ public class ButtonManager : MonoBehaviour
     public AudioSource placeholderAudioSource;
     public LipSyncFromAudioFile lipsync;
     public TextAsset SSML;
-
-    Transform Panel;
     // Start is called before the first frame update
     void Start()
     {
@@ -19,20 +17,14 @@ public class ButtonManager : MonoBehaviour
         Text text = transform.GetChild(0).GetComponent<Text>();
         text.text = pb.name;
 
-        Panel = transform.parent;
+        
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        /* if (pb.time > 0)
-         {
-             gameObject.GetComponent<Button>().interactable = false;
-         }
-         else
-             gameObject.GetComponent<Button>().interactable = true;*/
-
+        //fast forward/backtrack
         if (pb.time > 0)
         {
             if (Input.GetKeyDown(KeyCode.RightArrow))
@@ -45,29 +37,62 @@ public class ButtonManager : MonoBehaviour
                 pb.time -= 1;
             }
         }
+
+        if(Input.GetKeyDown(KeyCode.K))
+        {
+            pb.Stop();
+            pb.Play();
+            Debug.Log("Play..");
+        }
+
+        if (pb.time > 0)
+        {
+
+            foreach (var x in lipsync.visemes)
+            {
+                if ((pb.time * 1000) > (x.Key - lipsync.offset) && (pb.time * 1000) < (x.Key + lipsync.offset))
+                {
+                    //method to get blendshapes + display them
+                    StartCoroutine(lipsync.test(x.Value, x.Key));
+
+                    //brow movement for immersion
+                    StartCoroutine(lipsync.BrowMovement(x.Key));
+                    
+
+                }
+            }
+        }
     }
     private void OnDrawGizmos()
     {
+        //editor stuff
         Text text = transform.GetChild(0).GetComponent<Text>();
         text.text = pb.name;
     }
 
-    //on click
+    //on click method
     public void PlayTimeline()
     {
+        //if there is a key/region
         if (lipsync.key != null && lipsync.region != null)
         {
+            Transform Panel = transform.parent;
+            //read SSML, get visemes, output to WAV file.
             lipsync.FromFile_Viseme(placeholderAudioSource, SSML.text);
 
             foreach(Transform x in Panel.transform)
             {
+                //stop all timelines
                 x.GetComponent<ButtonManager>().pb.Stop();
             }
             
+            //play timeline related to button
             pb.Play();
             
 
         }
+
+        
     }
 }
 

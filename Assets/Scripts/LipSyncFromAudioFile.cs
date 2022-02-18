@@ -21,21 +21,15 @@ public class LipSyncFromAudioFile : MonoBehaviour
     public InputField keyInput;
     public InputField regionInput;
     
-
-    public AudioSource source;
-
     public int offset;
     float timeDelay;
 
     public Dictionary<float, int> visemes;
 
-    [TextArea(15, 20)]
-    public string text;
-    public PlayableDirector pb;
+    //public PlayableDirector pb;
     public SkinnedMeshRenderer skinnedMeshRenderer;
     public SkinnedMeshRenderer eyelashRenderer;
 
-    ButtonManager bm;
     void Start()
     {
         keyInput.text = key;
@@ -45,7 +39,7 @@ public class LipSyncFromAudioFile : MonoBehaviour
 
         //FromFile_Viseme();
         timeDelay = UnityEngine.Random.Range(1, 10);
-        //FromFile_Viseme_XML(placeholderSource);
+
     }
 
     void GetBlendshape(int value, int id)
@@ -226,11 +220,19 @@ public class LipSyncFromAudioFile : MonoBehaviour
 
         key = keyInput.text;
         region = regionInput.text;
-       
+
+        if(timeDelay <= 0f)
+        {
+            StartCoroutine(blink());
+        }
+        
+
+    }
+
+    void PlayTimeline(PlayableDirector pb)
+    {
         if (Input.GetKeyDown(KeyCode.K))
         {
-            //source.Stop();
-            //source.Play();
             pb.Stop();
             pb.Play();
             Debug.Log("Play..");
@@ -240,7 +242,6 @@ public class LipSyncFromAudioFile : MonoBehaviour
 
             foreach (var x in visemes)
             {
-                
                 if ((pb.time * 1000) > (x.Key - offset) && (pb.time * 1000) < (x.Key + offset))
                 {
 
@@ -252,12 +253,6 @@ public class LipSyncFromAudioFile : MonoBehaviour
 
             }
         }
-        if(timeDelay <= 0f)
-        {
-            StartCoroutine(blink());
-        }
-        
-
     }
     IEnumerator blink()
     {
@@ -278,14 +273,14 @@ public class LipSyncFromAudioFile : MonoBehaviour
         //Debug.Log("blink ended.");
     }
 
-    IEnumerator test(int id, float key)
+    public IEnumerator test(int id, float key)
     {
         var duration = (key+offset) - (key-offset);
         GetBlendshape(100, id);
         yield return new WaitForSeconds(duration/1000);
         GetBlendshape(0, id);
     }
-    IEnumerator BrowMovement(float key)
+    public IEnumerator BrowMovement(float key)
     {
         float value = UnityEngine.Random.Range(50, 100);
 
@@ -429,7 +424,7 @@ public class LipSyncFromAudioFile : MonoBehaviour
             synthesizer.VisemeReceived += (s, e) =>
             {
                 visemes.Add(Convert.ToSingle(e.AudioOffset / 10000), Convert.ToInt32(e.VisemeId));
-                Debug.Log(e.VisemeId);
+                
             };
 
             synthesizer.Synthesizing += (s, e) =>
