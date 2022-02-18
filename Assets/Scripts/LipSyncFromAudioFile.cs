@@ -8,15 +8,6 @@ using Microsoft.CognitiveServices.Speech.Audio;
 using UnityEditor;
 using UnityEngine.Playables;
 using UnityEngine.UI;
-[Serializable]
-public class Emotion
-{
-    public string name;
-    //public bool activated;
-
-    [Range(0.0f, 100.0f)]
-    public float value;
-}
 
 public class LipSyncFromAudioFile : MonoBehaviour
 {
@@ -24,10 +15,6 @@ public class LipSyncFromAudioFile : MonoBehaviour
 
     SpeechConfig speechConfig;
     AudioConfig audioConfig;
-
-    [TextArea(15, 20)]
-    public string XML;
-
     public string key;
     public string region;
 
@@ -36,13 +23,12 @@ public class LipSyncFromAudioFile : MonoBehaviour
     
 
     public AudioSource source;
-    public AudioSource placeholderSource;
 
     public int offset;
     float timeDelay;
+
     public Dictionary<float, int> visemes;
 
-    public Emotion[] emotion;
     [TextArea(15, 20)]
     public string text;
     public PlayableDirector pb;
@@ -240,7 +226,7 @@ public class LipSyncFromAudioFile : MonoBehaviour
 
         key = keyInput.text;
         region = regionInput.text;
-        Emotion(emotion);
+       
         if (Input.GetKeyDown(KeyCode.K))
         {
             //source.Stop();
@@ -331,95 +317,8 @@ public class LipSyncFromAudioFile : MonoBehaviour
         
 
     }
-    void Emotion(Emotion[] emotion )
-    {
-        //string identifier = "Genesis8_1__facs_ctrl_";
-        foreach(var x in emotion )
-        {
-            
-            switch (x.name)
-            {
-                
-                case "Happy":
-
-                    if (x.value > 0)
-                    {
-                        HappyPreset(x.value);
-                    }
-                    
-                        //skinnedMeshRenderer.SetBlendShapeWeight(ConvertTo("SmileFullFace", identifier), 0);
-                    
-                    break;
-
-                case "Sad":
-                    if (x.value > 0)
-                    {
-                        SadPreset(x.value);
-                    }
-                    else
-                    {
-                        
-                    }
-                    
-                    break;
-                case "Surprised":
-                    if (x.value > 0)
-                    {
-                        SurprisedPreset(x.value);                   
-                    }
-                    break;
-
-                case "Scared":
-                    if (x.value > 0)
-                    {
-                        ScaredPreset(x.value);
-                    }
-                    else
-                    {
-                        
-                    }
-                    
-                    break;
-                case "Angry":
-                    if (x.value > 0)
-                    {
-                        AngryPreset(x.value);
-                        
-                    }
-                    
-                    else
-                    {
-                        
-                    }
-                    
-                    break;
-                case "Disgust":
-                    if (x.value > 0)
-                    {
-                        DisgustPreset(x.value);
-                    }
-                    else
-                    {
-                       
-                    }
-                    
-                    break;
-
-                case "Contempt":
-                    if (x.value > 0)
-                    {
-                        ContemptPreset(x.value);
-                    }
-                    else
-                    {
-                        break;
-
-                    }
-                    break;
-            }
-        }
-    }
-    void HappyPreset(float value)
+    
+    public void HappyPreset(float value)
     {
         
         string identifier = "Genesis8_1Male__facs_ctrl_";
@@ -430,7 +329,7 @@ public class LipSyncFromAudioFile : MonoBehaviour
         eyelashRenderer.SetBlendShapeWeight(ConvertTo_Eye("BrowUp", eye_identifier), value);
     }
 
-    void SadPreset(float value)
+    public void SadPreset(float value)
     {
         
         string identifier = "Genesis8_1Male__facs_ctrl_";
@@ -442,7 +341,7 @@ public class LipSyncFromAudioFile : MonoBehaviour
 
     }
 
-    void SurprisedPreset(float value)
+    public void SurprisedPreset(float value)
     {
         
         string identifier = "Genesis8_1Male__facs_ctrl_";
@@ -456,7 +355,7 @@ public class LipSyncFromAudioFile : MonoBehaviour
 
     }
 
-    void ScaredPreset(float value)
+    public void ScaredPreset(float value)
     {
         
         string identifier = "Genesis8_1Male__facs_ctrl_";
@@ -473,7 +372,7 @@ public class LipSyncFromAudioFile : MonoBehaviour
         
     }
 
-    void AngryPreset(float value)
+    public void AngryPreset(float value)
     {
         
         string identifier = "Genesis8_1Male__facs_ctrl_";
@@ -489,7 +388,7 @@ public class LipSyncFromAudioFile : MonoBehaviour
 
     }
 
-    void DisgustPreset(float value)
+    public void DisgustPreset(float value)
     {
         
         string identifier = "Genesis8_1Male__facs_ctrl_";
@@ -505,7 +404,7 @@ public class LipSyncFromAudioFile : MonoBehaviour
 
     }
 
-    void ContemptPreset(float value)
+    public void ContemptPreset(float value)
     {
         
         string identifier = "Genesis8_1Male__facs_ctrl_";
@@ -570,71 +469,6 @@ public class LipSyncFromAudioFile : MonoBehaviour
                 Debug.Log("\nStop recognition.");
             };
             
-        };
-
-
-    }
-
-    public void FromFile_Viseme_XML(AudioSource audioSource)
-    {
-        //write to new file
-        speechConfig = SpeechConfig.FromSubscription(key, region);
-        
-        var audioConfig = AudioConfig.FromWavFileOutput(AssetDatabase.GetAssetPath(audioSource.clip));
-
-        using (var synthesizer = new SpeechSynthesizer(speechConfig, audioConfig))
-        {
-            synthesizer.SynthesisStarted += (s, e) =>
-            {
-                Debug.Log("\nSession started event.");
-            };
-            //on receiving viseme
-            synthesizer.VisemeReceived += (s, e) =>
-            {
-                visemes.Add(Convert.ToSingle(e.AudioOffset / 10000), Convert.ToInt32(e.VisemeId));
-
-            };
-
-            synthesizer.Synthesizing += (s, e) =>
-            {
-                Debug.Log("synthesising..");
-            };
-
-            //get result
-            var result = synthesizer.SpeakSsmlAsync(XML);
-
-            //if synthesis completed
-            if (result.Result.Reason == ResultReason.SynthesizingAudioCompleted)
-            {
-                Debug.Log($"Viseme Speech synthesized to speaker for text ");
-
-            }
-
-            //if cancelled
-            else if (result.Result.Reason == ResultReason.Canceled)
-            {
-                var cancellation = SpeechSynthesisCancellationDetails.FromResult(result.Result);
-                Debug.Log($"CANCELED: Reason={cancellation.Reason}");
-
-                if (cancellation.Reason == CancellationReason.Error)
-                {
-                    Debug.Log($"CANCELED: ErrorCode={cancellation.ErrorCode}");
-                    Debug.Log($"CANCELED: ErrorDetails=[{cancellation.ErrorDetails}]");
-                    Debug.Log($"CANCELED: Did you update the subscription info?");
-                }
-
-            }
-
-
-            synthesizer.SynthesisCompleted += (s, e) =>
-            {
-                Debug.Log("\nSession stopped event.");
-                Debug.Log("\nStop recognition.");
-
-
-
-            };
-
         };
 
 

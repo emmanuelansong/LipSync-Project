@@ -709,7 +709,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20cc714f4db87174697298af93e9c2d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  emotion:
+  - name: Happy
+    value: 0
+  lip: {fileID: 0}
   sliderValue: 0
+  panel: {fileID: 0}
 --- !u!114 &300216032
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1546,7 +1551,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20cc714f4db87174697298af93e9c2d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  emotion:
+  - name: Happy
+    value: 0
+  lip: {fileID: 1196012594}
   sliderValue: 0
+  panel: {fileID: 0}
 --- !u!114 &771606076
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3041,33 +3051,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e509cba30a844114f944436a18a9b8a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  XML: "<speak version=\"1.0\" xmlns=\"http://www.w3.org/2001/10/synthesis\"\r\n      
-    xmlns:mstts=\"https://www.w3.org/2001/mstts\" xml:lang=\"en-US\">\r\n    <voice
-    name=\"en-US-ChristopherNeural\">\r\n        <mstts:express-as style=\"angry\"
-    styledegree=\"2\">\r\n            That'd be just amazing!\r!\n        </mstts:express-as>\r\n   
-    </voice>\r\n</speak>"
   key: cb855b7bdec64634b8cbd93b599ed85b
   region: westeurope
   keyInput: {fileID: 1914902159}
   regionInput: {fileID: 878795235}
   source: {fileID: 961695427}
-  placeholderSource: {fileID: 0}
   offset: 50
-  emotion:
-  - name: Happy
-    value: 0
-  - name: Sad
-    value: 0
-  - name: Surprised
-    value: 0
-  - name: Angry
-    value: 0
-  - name: Disgust
-    value: 29.6
-  - name: Contempt
-    value: 0
-  - name: Scared
-    value: 0
   text: Who are you talking to right now? Who is it you think you see? Do you know
     how much I make a year? I mean, even if I told you, you wouldn't believe it.
     Do you know what would happen if I suddenly decided to stop going into work?
@@ -3844,7 +3833,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20cc714f4db87174697298af93e9c2d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  emotion:
+  - name: Happy
+    value: 0
+  lip: {fileID: 1196012594}
   sliderValue: 0
+  panel: {fileID: 0}
 --- !u!114 &1364414836
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3938,7 +3932,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20cc714f4db87174697298af93e9c2d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  emotion:
+  - name: Happy
+    value: 0
+  lip: {fileID: 1196012594}
   sliderValue: 0
+  panel: {fileID: 0}
 --- !u!114 &1369343436
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4107,7 +4106,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20cc714f4db87174697298af93e9c2d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  emotion:
+  - name: Scared
+    value: 0
+  lip: {fileID: 1196012594}
   sliderValue: 0
+  panel: {fileID: 0}
 --- !u!114 &1462950811
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4276,7 +4280,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20cc714f4db87174697298af93e9c2d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  emotion:
+  - name: Sad
+    value: 0
+  lip: {fileID: 1196012594}
   sliderValue: 0
+  panel: {fileID: 0}
 --- !u!114 &1499532530
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5129,10 +5138,10 @@ RectTransform:
   m_Father: {fileID: 1280940220}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -247.18137, y: 40.533997}
-  m_SizeDelta: {x: -494.3626, y: -81.068}
+  m_AnchorMin: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 0, y: 0.5}
+  m_AnchoredPosition: {x: 85.318634, y: 40.534}
+  m_SizeDelta: {x: 170.6374, y: 452.93}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1866197741
 MonoBehaviour:
@@ -5578,7 +5587,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20cc714f4db87174697298af93e9c2d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  emotion:
+  - name: Surprised
+    value: 0
+  lip: {fileID: 1196012594}
   sliderValue: 0
+  panel: {fileID: 0}
 --- !u!114 &1930896034
 MonoBehaviour:
   m_ObjectHideFlags: 0

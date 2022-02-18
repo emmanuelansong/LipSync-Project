@@ -5,36 +5,110 @@ using System.Globalization;
 using UnityEngine;
 using UnityEngine.UI;
 
+[Serializable]
+public class Emotion
+{
+    public string name;
+    //public bool activated;
+    
+    [Range(0.0f, 100.0f)]
+    public float value;
+}
 public class EmotionManager : MonoBehaviour
 {
-
-    LipSyncFromAudioFile lip;
+    public Emotion[] emotion;
+    public LipSyncFromAudioFile lip;
     public float sliderValue;
+    public GameObject panel;
+
     // Start is called before the first frame update
-    //public Emotion[] emotion;
+
     void Start()
     {
         GetComponentInChildren<Slider>().wholeNumbers = false;
         gameObject.GetComponentInChildren<Slider>().maxValue = 100;
         sliderValue = GetComponentInChildren<Slider>().value;
+
         lip = GameObject.Find("LipSync_Character").GetComponent<LipSyncFromAudioFile>();
 
+        for (int x = 0; x < emotion.Length; x++)
+        {
+            emotion[x].name = gameObject.name;
+            emotion[x].value = 0;
+        }
     }
 
     private void Update()
     {
+        GetComponent<Text>().text = $"{gameObject.name} : {Mathf.Round(sliderValue * 100) / 100}%";
         sliderValue = GetComponentInChildren<Slider>().value;
-        //change text
-        var text = GetComponent<Text>().text = $"{gameObject.name} : {Mathf.Round(sliderValue * 100) / 100}%";
-        //ChangeValue();
 
-        for (int x = 0; x < lip.emotion.Length; x++)
+        for (int x = 0; x < emotion.Length; x++)
         {
-            if (lip.emotion[x].name == gameObject.name)
-                lip.emotion[x].value = sliderValue;
-
+            if (emotion[x].name == gameObject.name)
+            {
+                emotion[x].value = sliderValue;
+            }
         }
+        Emotion(emotion);
 
+    }
 
+    void Emotion(Emotion[] emotion)
+    {
+        for (int x = 0; x < emotion.Length; x++)
+        {
+            switch (emotion[x].name)
+            {
+
+                case "Happy":
+
+                    if (emotion[x].value > 0)
+                    {
+                        lip.HappyPreset(emotion[x].value);
+                    }
+                    break;
+
+                case "Sad":
+                    if (emotion[x].value > 0)
+                    {
+                        lip.SadPreset(emotion[x].value);
+                    }
+                    break;
+                case "Surprised":
+                    if (emotion[x].value > 0)
+                    {
+                        lip.SurprisedPreset(emotion[x].value);
+                    }
+                    break;
+
+                case "Scared":
+                    if (emotion[x].value > 0)
+                    {
+                        lip.ScaredPreset(emotion[x].value);
+                    }
+                    break;
+                case "Angry":
+                    if (emotion[x].value > 0)
+                    {
+                        lip.AngryPreset(emotion[x].value);
+
+                    }
+                    break;
+                case "Disgust":
+                    if (emotion[x].value > 0)
+                    {
+                        lip.DisgustPreset(emotion[x].value);
+                    }
+                    break;
+
+                case "Contempt":
+                    if (emotion[x].value > 0)
+                    {
+                        lip.ContemptPreset(emotion[x].value);
+                    }
+                    break;
+            }
+        }
     }
 }
