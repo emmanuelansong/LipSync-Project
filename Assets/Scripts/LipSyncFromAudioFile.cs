@@ -421,6 +421,7 @@ public class LipSyncFromAudioFile : MonoBehaviour
                 Debug.Log("\nSession started event.");//
             };
             //on receiving viseme
+            visemes = new Dictionary<float, int>();
             synthesizer.VisemeReceived += (s, e) =>
             {
                 visemes.Add(Convert.ToSingle(e.AudioOffset / 10000), Convert.ToInt32(e.VisemeId));
