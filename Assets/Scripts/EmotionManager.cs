@@ -25,7 +25,7 @@ public class EmotionManager : MonoBehaviour
 
     void Start()
     {
-        GetComponentInChildren<Slider>().wholeNumbers = false;
+        GetComponentInChildren<Slider>().wholeNumbers = true;
         gameObject.GetComponentInChildren<Slider>().maxValue = 100;
         sliderValue = GetComponentInChildren<Slider>().value;
 
@@ -40,7 +40,8 @@ public class EmotionManager : MonoBehaviour
 
     private void Update()
     {
-        GetComponent<Text>().text = $"{gameObject.name} : {Mathf.Round(sliderValue * 100) / 100}%";
+        //{Mathf.Round(sliderValue * 100) / 100}
+        GetComponent<Text>().text = $"{gameObject.name} : {sliderValue}%";
         sliderValue = GetComponentInChildren<Slider>().value;
 
         for (int x = 0; x < emotion.Length; x++)
