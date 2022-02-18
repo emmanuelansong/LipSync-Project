@@ -235,7 +235,7 @@ public class LipSyncFromAudioFile : MonoBehaviour
             pb.Play();
             Debug.Log("Play..");
         }
-        if (source.time > 0)
+        if (pb.time > 0)
         {
 
             foreach (var x in visemes)
