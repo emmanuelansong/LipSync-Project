@@ -282,7 +282,8 @@ public class LipSyncFromAudioFile : MonoBehaviour
     }
     public IEnumerator BrowMovement(float key)
     {
-        float value = UnityEngine.Random.Range(50, 100);
+        
+        float value = UnityEngine.Random.Range(0, 100);
 
         float activate0 = UnityEngine.Random.Range(0, 1);
         int activate = UnityEngine.Random.Range(0, 3);
@@ -303,7 +304,7 @@ public class LipSyncFromAudioFile : MonoBehaviour
             if (activate == 2)
                 skinnedMeshRenderer.SetBlendShapeWeight(ConvertTo("BrowDown", identifier), value);
         }
-        yield return new WaitForSeconds(duration);
+        yield return new WaitForSeconds(2);
 
         if (activate == 1)
             skinnedMeshRenderer.SetBlendShapeWeight(ConvertTo("BrowUp", identifier), 0);
@@ -312,7 +313,7 @@ public class LipSyncFromAudioFile : MonoBehaviour
         
 
     }
-    
+    //emotion sliders
     public void HappyPreset(float value)
     {
         
@@ -387,7 +388,7 @@ public class LipSyncFromAudioFile : MonoBehaviour
     {
         
         string identifier = "Genesis8_1Male__facs_ctrl_";
-        skinnedMeshRenderer.SetBlendShapeWeight(ConvertTo("Frown", identifier), value/2);
+        skinnedMeshRenderer.SetBlendShapeWeight(ConvertTo("Frown", identifier), value / 2);
         skinnedMeshRenderer.SetBlendShapeWeight(ConvertTo("NoseSneer", identifier), value);
         skinnedMeshRenderer.SetBlendShapeWeight(ConvertTo("EyeSquint", identifier), value);
 
@@ -409,7 +410,7 @@ public class LipSyncFromAudioFile : MonoBehaviour
 
     public void FromFile_Viseme(AudioSource audioSource, string SSML)
     {
-        //write to new file
+        
         speechConfig = SpeechConfig.FromSubscription(key, region);
         speechConfig.SpeechSynthesisVoiceName = "en-US-GuyNeural";
         var audioConfig = AudioConfig.FromWavFileInput(AssetDatabase.GetAssetPath(audioSource.clip));
@@ -418,14 +419,17 @@ public class LipSyncFromAudioFile : MonoBehaviour
         {
             synthesizer.SynthesisStarted += (s, e) =>
             {
-                Debug.Log("\nSession started event.");//
+                Debug.Log("\nSession started event.");//debugging
             };
             //on receiving viseme
             visemes = new Dictionary<float, int>();
             synthesizer.VisemeReceived += (s, e) =>
             {
                 visemes.Add(Convert.ToSingle(e.AudioOffset / 10000), Convert.ToInt32(e.VisemeId));
-                
+
+                Debug.Log($"Viseme event received. Audio offset: " +
+                 $"{e.AudioOffset / 10000}ms, viseme id: {e.VisemeId}.");
+
             };
 
             synthesizer.Synthesizing += (s, e) =>
@@ -440,6 +444,7 @@ public class LipSyncFromAudioFile : MonoBehaviour
             if (result.Result.Reason == ResultReason.SynthesizingAudioCompleted)
             {
                 Debug.Log($"Viseme Speech synthesized to speaker for text ");
+
 
             }
 

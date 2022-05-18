@@ -38,9 +38,10 @@ public class EmotionManager : MonoBehaviour
         }
     }
 
+    //menu sliders
     private void Update()
     {
-        //{Mathf.Round(sliderValue * 100) / 100}
+        
         GetComponent<Text>().text = $"{gameObject.name} : {sliderValue}%";
         sliderValue = GetComponentInChildren<Slider>().value;
 
@@ -55,6 +56,7 @@ public class EmotionManager : MonoBehaviour
 
     }
 
+    //emotion list
     void Emotion(Emotion[] emotion)
     {
         for (int x = 0; x < emotion.Length; x++)
@@ -96,7 +98,7 @@ public class EmotionManager : MonoBehaviour
 
                     }
                     break;
-                case "Disgust":
+                case "Disgusted":
                     if (emotion[x].value > 0)
                     {
                         lip.DisgustPreset(emotion[x].value);
