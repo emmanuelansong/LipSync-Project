@@ -73,12 +73,23 @@ public class ButtonManager : MonoBehaviour
     //on click method
     public void PlayTimeline()
     {
+        string path = null;
+        if (gameObject.name == "audio1")
+        {
+            
+            path = Application.dataPath + "/Resources/walter_placeholder";
+        }
+
+        if (gameObject.name == "audio2")
+        {
+            path = Application.dataPath + "/Resources/walter_placeholder_2";
+        }
         //if there is a key/region
         if (lipsync.key != null && lipsync.region != null)
         {
             Transform Panel = transform.parent;
             //read SSML, get visemes, output to WAV file.
-            lipsync.FromFile_Viseme(placeholderAudioSource, SSML.text);
+            lipsync.FromFile_Viseme(placeholderAudioSource, SSML.text, path);
 
             foreach(Transform x in Panel.transform)
             {

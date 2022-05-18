@@ -408,12 +408,18 @@ public class LipSyncFromAudioFile : MonoBehaviour
     }
 
 
-    public void FromFile_Viseme(AudioSource audioSource, string SSML)
+    public void FromFile_Viseme(AudioSource audioSource, string SSML, string path)
     {
         
         speechConfig = SpeechConfig.FromSubscription(key, region);
         speechConfig.SpeechSynthesisVoiceName = "en-US-GuyNeural";
-        var audioConfig = AudioConfig.FromWavFileInput(AssetDatabase.GetAssetPath(audioSource.clip));
+
+        //load audio config
+       // var audioConfig = AudioConfig.FromWavFileInput(AssetDatabase.GetAssetPath(audioSource.clip));
+
+        var audioConfig = AudioConfig.FromWavFileInput(path);
+        //string xx =Resources.Load<AudioSource>("Audios/PLACEHOLDER");
+
 
         using (var synthesizer = new SpeechSynthesizer(speechConfig, audioConfig))
         {
