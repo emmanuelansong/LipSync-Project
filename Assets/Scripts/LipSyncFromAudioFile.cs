@@ -246,7 +246,7 @@ public class LipSyncFromAudioFile : MonoBehaviour
                 {
 
                     StartCoroutine(test(x.Value, x.Key));
-                    StartCoroutine(BrowMovement(x.Key));
+                    //StartCoroutine(BrowMovement(x.Key));
 
                 }
                 //Debug.Log(x.Key);
@@ -298,7 +298,6 @@ public class LipSyncFromAudioFile : MonoBehaviour
 
         if (activate0 < 0.05)
         {
-            
             if (activate == 1)
                 skinnedMeshRenderer.SetBlendShapeWeight(ConvertTo("BrowUp", identifier), value);
             if (activate == 2)
@@ -415,11 +414,8 @@ public class LipSyncFromAudioFile : MonoBehaviour
         speechConfig.SpeechSynthesisVoiceName = "en-US-GuyNeural";
 
         //load audio config
-       // var audioConfig = AudioConfig.FromWavFileInput(AssetDatabase.GetAssetPath(audioSource.clip));
 
         var audioConfig = AudioConfig.FromWavFileInput(path);
-        //string xx =Resources.Load<AudioSource>("Audios/PLACEHOLDER");
-
 
         using (var synthesizer = new SpeechSynthesizer(speechConfig, audioConfig))
         {
