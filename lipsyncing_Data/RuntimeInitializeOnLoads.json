@@ -1,3 +1,1 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:c485a999238edfa0a5ac7fa61383ef3cf3e7fcdb456a41ca7c9e83e76ecaa6c1
-size 380
+{"root":[{"assemblyName":"Unity.RenderPipelines.Universal.Runtime","nameSpace":"UnityEngine.Rendering.Universal","className":"XRSystem","methodName":"XRSystemInit","loadTypes":3,"isUnityClass":true},{"assemblyName":"Unity.RenderPipelines.Core.Runtime","nameSpace":"UnityEngine.Rendering","className":"DebugUpdater","methodName":"RuntimeInit","loadTypes":0,"isUnityClass":true}]}
