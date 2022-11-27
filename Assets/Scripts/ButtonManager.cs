@@ -10,6 +10,7 @@ public class ButtonManager : MonoBehaviour
     public AudioSource placeholderAudioSource;
     public LipSyncFromAudioFile lipsync;
     public TextAsset SSML;
+    float timeDelay = 2;
     // Start is called before the first frame update
     void Start()
     {
@@ -56,12 +57,22 @@ public class ButtonManager : MonoBehaviour
                     StartCoroutine(lipsync.test(x.Value, x.Key));
 
                     //brow movement for immersion
-                    StartCoroutine(lipsync.BrowMovement(x.Key));
+                    //StartCoroutine(lipsync.BrowMovement(x.Key));
                     
 
                 }
             }
+            
         }
+        
+        timeDelay-=Time.deltaTime;
+   
+        if (timeDelay <= 0)
+        {
+            StartCoroutine(lipsync.BrowMovement());
+            timeDelay = Random.Range(1, 5);
+        }
+
     }
     private void OnDrawGizmos()
     {

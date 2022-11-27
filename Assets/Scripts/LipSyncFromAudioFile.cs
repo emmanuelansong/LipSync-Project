@@ -22,13 +22,14 @@ public class LipSyncFromAudioFile : MonoBehaviour
     public InputField regionInput;
     
     public int offset;
-    float timeDelay;
+    public float timeDelay;
 
     public Dictionary<float, int> visemes;
 
     //public PlayableDirector pb;
     public SkinnedMeshRenderer skinnedMeshRenderer;
     public SkinnedMeshRenderer eyelashRenderer;
+    float tempDelayVar;
 
     void Start()
     {
@@ -39,7 +40,7 @@ public class LipSyncFromAudioFile : MonoBehaviour
 
         //FromFile_Viseme();
         timeDelay = UnityEngine.Random.Range(1, 10);
-
+        tempDelayVar = timeDelay;
     }
 
     void GetBlendshape(int value, int id)
@@ -216,19 +217,23 @@ public class LipSyncFromAudioFile : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //blink time delay
         timeDelay -= Time.deltaTime;
 
+        //ui
         key = keyInput.text;
         region = regionInput.text;
 
         if(timeDelay <= 0f)
         {
             StartCoroutine(blink());
+            
         }
         
 
     }
 
+    //unused
     void PlayTimeline(PlayableDirector pb)
     {
         if (Input.GetKeyDown(KeyCode.K))
@@ -254,6 +259,8 @@ public class LipSyncFromAudioFile : MonoBehaviour
             }
         }
     }
+
+    //blink ienumerator
     IEnumerator blink()
     {
         skinnedMeshRenderer.SetBlendShapeWeight(ConvertTo("EyeBlink", "Genesis8_1Male__facs_ctrl_"), 0);
@@ -273,6 +280,7 @@ public class LipSyncFromAudioFile : MonoBehaviour
         //Debug.Log("blink ended.");
     }
 
+    //for lip syncing
     public IEnumerator test(int id, float key)
     {
         var duration = (key+offset) - (key-offset);
@@ -280,36 +288,39 @@ public class LipSyncFromAudioFile : MonoBehaviour
         yield return new WaitForSeconds(duration/1000);
         GetBlendshape(0, id);
     }
-    public IEnumerator BrowMovement(float key)
+
+    //brow movement
+    public IEnumerator BrowMovement()
     {
-        
+       
         float value = UnityEngine.Random.Range(0, 100);
 
-        float activate0 = UnityEngine.Random.Range(0, 1);
-        int activate = UnityEngine.Random.Range(0, 3);
+        int decider = UnityEngine.Random.Range(0, 2);//if 1, isOn is true
         
         string identifier = "Genesis8_1Male__facs_ctrl_";
-        var duration = (key + offset) - (key - offset);
-
-        if (activate0 > 0.05f)
+        //var duration = (key + offset) - (key - offset);
+        //value = Mathf.Lerp(0, value, Time.deltaTime);
+        if (decider == 0)
         {
-            yield break;
+            skinnedMeshRenderer.SetBlendShapeWeight(ConvertTo("BrowUp", identifier), value);
         }
 
-        if (activate0 < 0.05)
+        if(decider == 1)
         {
-            if (activate == 1)
-                skinnedMeshRenderer.SetBlendShapeWeight(ConvertTo("BrowUp", identifier), value);
-            if (activate == 2)
-                skinnedMeshRenderer.SetBlendShapeWeight(ConvertTo("BrowDown", identifier), value);
+            skinnedMeshRenderer.SetBlendShapeWeight(ConvertTo("BrowDown", identifier), value);
         }
         yield return new WaitForSeconds(2);
 
-        if (activate == 1)
+        if (decider == 0)
+        {
             skinnedMeshRenderer.SetBlendShapeWeight(ConvertTo("BrowUp", identifier), 0);
-        if (activate == 2)
+        }
+
+        if (decider == 1)
+        {
             skinnedMeshRenderer.SetBlendShapeWeight(ConvertTo("BrowDown", identifier), 0);
-        
+        }
+
 
     }
     //emotion sliders
